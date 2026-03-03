@@ -48,7 +48,9 @@ FROM php:8.2-fpm-alpine as app
 # Install system dependencies for runtime
 RUN apk add --no-cache \
     nginx \
+    pkgconf \
     libzip \
+    libzip-dev \
     zlib \
     libpng \
     jpeg \
