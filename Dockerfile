@@ -5,7 +5,9 @@ FROM php:8.2-fpm-alpine as builder
 RUN apk add --no-cache \
     git \
     curl \
+    libzip \
     libzip-dev \
+    zlib-dev \
     libpng-dev \
     jpeg-dev \
     freetype-dev \
@@ -47,6 +49,7 @@ FROM php:8.2-fpm-alpine as app
 RUN apk add --no-cache \
     nginx \
     libzip \
+    zlib \
     libpng \
     jpeg \
     freetype \
