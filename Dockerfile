@@ -29,6 +29,9 @@ RUN docker-php-ext-install -j$(nproc) \
 # Set working directory
 WORKDIR /app
 
+# Install Composer
+COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
+
 # Copy composer files and install dependencies
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-interaction
