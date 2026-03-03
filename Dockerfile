@@ -32,12 +32,12 @@ WORKDIR /app
 # Install Composer
 COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
 
+# Copy the entire application code
+COPY . .
+
 # Copy composer files and install dependencies
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-interaction
-
-# Copy the rest of the application code
-COPY . .
 
 # Optimize Laravel
 RUN php artisan optimize:clear
