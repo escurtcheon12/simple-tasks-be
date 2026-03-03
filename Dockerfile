@@ -53,12 +53,18 @@ RUN apk add --no-cache \
     libzip-dev \
     zlib \
     libpng \
+    libpng-dev \
     jpeg \
+    jpeg-dev \
     freetype \
+    freetype-dev \
     icu \
+    icu-dev \
     mysql-client \
     oniguruma \
-    libxml2
+    oniguruma-dev \
+    libxml2 \
+    libxml2-dev
 
 # Install PHP extensions (runtime only)
 RUN docker-php-ext-install -j$(nproc) \
