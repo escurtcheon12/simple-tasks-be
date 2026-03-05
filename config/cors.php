@@ -17,7 +17,6 @@ return [
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
-
     'allowed_origins' => ['http://localhost:5173', 'http://localhost:5174', 'https://simple-tasks-fe-production.up.railway.app'], // Allow requests from your React app
     'allowed_origins_patterns' => [],
 

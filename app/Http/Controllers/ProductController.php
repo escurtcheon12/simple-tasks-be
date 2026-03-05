@@ -8,17 +8,24 @@ use Illuminate\Support\Facades\Artisan;
 
 class ProductController extends Controller
 {
+<<<<<<< HEAD
+
+=======
     /**
      * Display a listing of the resource.
      */
+>>>>>>> 26dede97a3ec903688ce451e63b8f4a0611c0bf4
     public function index()
     {
         return Product::paginate(10);
     }
 
+<<<<<<< HEAD
+=======
     /**
      * Store a newly created resource in storage.
      */
+>>>>>>> 26dede97a3ec903688ce451e63b8f4a0611c0bf4
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -33,18 +40,24 @@ class ProductController extends Controller
         return response()->json($product, 201);
     }
 
+<<<<<<< HEAD
+=======
     /**
      * Display the specified resource.
      */
+>>>>>>> 26dede97a3ec903688ce451e63b8f4a0611c0bf4
     public function show(string $id)
     {
         $product = Product::findOrFail($id);
         return response()->json($product);
     }
 
+<<<<<<< HEAD
+=======
     /**
      * Update the specified resource in storage.
      */
+>>>>>>> 26dede97a3ec903688ce451e63b8f4a0611c0bf4
     public function update(Request $request, string $id)
     {
         $product = Product::findOrFail($id);
@@ -61,9 +74,12 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
+<<<<<<< HEAD
+=======
     /**
      * Remove the specified resource from storage.
      */
+>>>>>>> 26dede97a3ec903688ce451e63b8f4a0611c0bf4
     public function destroy(string $id)
     {
         $product = Product::findOrFail($id);
@@ -72,9 +88,12 @@ class ProductController extends Controller
         return response()->json(null, 204);
     }
 
+<<<<<<< HEAD
+=======
     /**
      * Sync products from external API.
      */
+>>>>>>> 26dede97a3ec903688ce451e63b8f4a0611c0bf4
     public function syncProducts()
     {
         Artisan::call('app:sync-products');
