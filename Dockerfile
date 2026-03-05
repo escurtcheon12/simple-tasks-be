@@ -5,7 +5,6 @@ FROM php:8.2-fpm-alpine as builder
 RUN apk add --no-cache \
     git \
     curl \
-    libzip \
     libzip-dev \
     zlib-dev \
     libpng-dev \
@@ -49,23 +48,14 @@ FROM php:8.2-fpm-alpine as app
 # Install system dependencies for runtime
 RUN apk add --no-cache \
     nginx \
-    pkgconf \
+    curl \
     libzip \
-    libzip-dev \
-    zlib \
     libpng \
-    libpng-dev \
     jpeg \
-    jpeg-dev \
     freetype \
-    freetype-dev \
     icu \
-    icu-dev \
-    mysql-client \
     oniguruma \
-    oniguruma-dev \
-    libxml2 \
-    libxml2-dev
+    libxml2
 
 # Install PHP extensions (runtime only)
 RUN docker-php-ext-install -j$(nproc) \
@@ -90,14 +80,14 @@ COPY docker/nginx.conf /etc/nginx/nginx.conf
 
 # Create necessary directories for Nginx and set permissions
 RUN mkdir -p /run/nginx /var/log/nginx && \
-    chown -R www-data:www-data /run/nginx /var/log/nginx
+    chown -R www-data:www-data /run/nginx /var/log/nginx /var/lib/nginx /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Set permissions for Laravel storage and cache
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && \
-    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Expose port 80 for Nginx
 EXPOSE 80
 
-# Start PHP-FPM in the background and Nginx in the foreground
+# Start PHP-FPM and Nginx
+# Using sh -c to allow multiple commands
 CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
