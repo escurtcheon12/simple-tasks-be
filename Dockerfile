@@ -5,6 +5,8 @@ FROM php:8.2-fpm-alpine as builder
 RUN apk add --no-cache \
     git \
     curl \
+    pkgconf \
+    libzip \
     libzip-dev \
     zlib-dev \
     libpng-dev \
@@ -57,14 +59,9 @@ RUN apk add --no-cache \
     oniguruma \
     libxml2
 
-# Install PHP extensions (runtime only)
-RUN docker-php-ext-install -j$(nproc) \
-    pdo_mysql \
-    zip \
-    gd \
-    intl \
-    mbstring \
-    xml
+# Copy PHP extensions from builder stage
+COPY --from=builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
+COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
 
 # Set working directory
 WORKDIR /var/www/html
