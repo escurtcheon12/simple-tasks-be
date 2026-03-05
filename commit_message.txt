@@ -1,0 +1,1 @@
+feat: Separate backend into its own folder and simplify Dockerfile
