@@ -85,15 +85,19 @@ COPY --from=builder /app .
 # Remove the frontend directory as it's served separately
 RUN rm -rf frontend
 
-# Copy Nginx configuration
-COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+# Copy Nginx configuration to the main location
+COPY docker/nginx.conf /etc/nginx/nginx.conf
+
+# Create necessary directories for Nginx and set permissions
+RUN mkdir -p /run/nginx /var/log/nginx && \
+    chown -R www-data:www-data /run/nginx /var/log/nginx
 
 # Set permissions for Laravel storage and cache
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && \
+    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Expose port 80 for Nginx
 EXPOSE 80
 
 # Start PHP-FPM and Nginx
-CMD sh -c "php-fpm && nginx -g 'daemon off;'"
+CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
