@@ -17,7 +17,7 @@ return [
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
-    'allowed_origins' => ['*'], // Allow requests from your React app
+    'allowed_origins' => ['http://localhost:5173', 'http://localhost:5174', 'https://simple-tasks-fe-production.up.railway.app'], // Allow requests from your React app
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
@@ -26,6 +26,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    'supports_credentials' => true,
 
 ];

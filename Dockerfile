@@ -5,7 +5,6 @@ FROM php:8.2-fpm-alpine as builder
 RUN apk add --no-cache \
     git \
     curl \
-    pkgconf \
     libzip \
     libzip-dev \
     zlib-dev \
@@ -50,18 +49,32 @@ FROM php:8.2-fpm-alpine as app
 # Install system dependencies for runtime
 RUN apk add --no-cache \
     nginx \
-    curl \
+    pkgconf \
     libzip \
+    libzip-dev \
+    zlib \
     libpng \
+    libpng-dev \
     jpeg \
+    jpeg-dev \
     freetype \
+    freetype-dev \
     icu \
+    icu-dev \
+    mysql-client \
     oniguruma \
-    libxml2
+    oniguruma-dev \
+    libxml2 \
+    libxml2-dev
 
-# Copy PHP extensions from builder stage
-COPY --from=builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
-COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
+# Install PHP extensions (runtime only)
+RUN docker-php-ext-install -j$(nproc) \
+    pdo_mysql \
+    zip \
+    gd \
+    intl \
+    mbstring \
+    xml
 
 # Set working directory
 WORKDIR /var/www/html
@@ -75,15 +88,16 @@ RUN rm -rf frontend
 # Copy Nginx configuration to the main location
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 
-# Create necessary directories and set permissions
-RUN mkdir -p /run/nginx /var/log/nginx /var/lib/nginx/tmp && \
-    chown -R www-data:www-data /run/nginx /var/log/nginx /var/lib/nginx /var/www/html/storage /var/www/html/bootstrap/cache
+# Create necessary directories for Nginx and set permissions
+RUN mkdir -p /run/nginx /var/log/nginx && \
+    chown -R www-data:www-data /run/nginx /var/log/nginx
 
 # Set permissions for Laravel storage and cache
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && \
+    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Expose port 80 for Nginx
 EXPOSE 80
 
-# Start PHP-FPM in background and Nginx in foreground
+# Start PHP-FPM in the background and Nginx in the foreground
 CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
