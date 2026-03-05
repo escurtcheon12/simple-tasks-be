@@ -78,8 +78,8 @@ RUN rm -rf frontend
 # Copy Nginx configuration to the main location
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 
-# Create necessary directories for Nginx and set permissions
-RUN mkdir -p /run/nginx /var/log/nginx && \
+# Create necessary directories and set permissions
+RUN mkdir -p /run/nginx /var/log/nginx /var/lib/nginx/tmp && \
     chown -R www-data:www-data /run/nginx /var/log/nginx /var/lib/nginx /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Set permissions for Laravel storage and cache
@@ -88,6 +88,5 @@ RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 # Expose port 80 for Nginx
 EXPOSE 80
 
-# Start PHP-FPM and Nginx
-# Using sh -c to allow multiple commands
+# Start PHP-FPM in background and Nginx in foreground
 CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
