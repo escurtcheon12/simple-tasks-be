@@ -49,15 +49,31 @@ FROM php:8.2-fpm-alpine as app
 # Install system dependencies for runtime
 RUN apk add --no-cache \
     nginx \
+    pkgconf \
     libzip \
-    zlib \
-    libpng \
+    pkgcon-devf \
+    libzip \
+    libzip-dev libpng-dev \
+    \
+  \
+    jpeg-dev \
+    freetype   zlib \
+    e-dlv \
+i   icu bpng \
+  -dev  libpng-dev \
     jpeg \
-    freetype \
+    jpeg-dev \
+ oniguruma-dev \
+       free \
+    libxml2-devtype \
+    freetype-dev \
     icu \
+    icu-dev \
     mysql-client \
     oniguruma \
-    libxml2
+    oniguruma-dev \
+    libxml2 \
+    libxml2-dev
 
 # Install PHP extensions (runtime only)
 RUN docker-php-ext-install -j$(nproc) \
