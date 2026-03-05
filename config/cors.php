@@ -18,7 +18,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173', 'http://localhost:5174', 'https://simple-tasks-fe-production.up.railway.app'], // Allow requests from your React app
+    'allowed_origins' => ['http://localhost:5173', 'http://localhost:5174'], // Allow localhost for local development; Production handled by Nginx
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
