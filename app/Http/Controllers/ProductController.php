@@ -8,12 +8,17 @@ use Illuminate\Support\Facades\Artisan;
 
 class ProductController extends Controller
 {
-
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         return Product::paginate(10);
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -28,12 +33,18 @@ class ProductController extends Controller
         return response()->json($product, 201);
     }
 
+    /**
+     * Display the specified resource.
+     */
     public function show(string $id)
     {
         $product = Product::findOrFail($id);
         return response()->json($product);
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, string $id)
     {
         $product = Product::findOrFail($id);
@@ -50,6 +61,9 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(string $id)
     {
         $product = Product::findOrFail($id);
@@ -58,6 +72,9 @@ class ProductController extends Controller
         return response()->json(null, 204);
     }
 
+    /**
+     * Sync products from external API.
+     */
     public function syncProducts()
     {
         Artisan::call('app:sync-products');
