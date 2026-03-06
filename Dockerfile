@@ -42,8 +42,8 @@ COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Optimize Laravel (Build-time)
-# RUN php artisan config:cache
-# RUN php artisan route:cache
+RUN php artisan config:cache
+RUN php artisan route:cache
 
 # --- Production Stage ---
 FROM php:8.2-fpm-alpine as app
