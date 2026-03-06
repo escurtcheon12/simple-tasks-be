@@ -102,4 +102,5 @@ EXPOSE 80
 
 # Start PHP-FPM in the background and Nginx in the foreground
 # CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
-CMD ["sh", "-c", "php artisan config:clear && php artisan route:clear && php artisan config:cache && php artisan route:cache && php-fpm -D && nginx -g 'daemon off;'"]
+# CMD ["sh", "-c", "php artisan config:clear && php artisan route:clear && php artisan config:cache && php artisan route:cache && php-fpm -D && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "php artisan config:clear && php artisan route:clear && php-fpm -D && nginx -g 'daemon off;'"]
