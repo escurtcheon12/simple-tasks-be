@@ -40,8 +40,8 @@ COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Optimize Laravel
-RUN php artisan route:cache
-RUN php artisan view:cache
+# RUN php artisan route:cache
+# RUN php artisan view:cache
 
 # --- Production Stage ---
 FROM php:8.2-fpm-alpine as app
@@ -74,7 +74,8 @@ RUN docker-php-ext-install -j$(nproc) \
     gd \
     intl \
     mbstring \
-    xml
+    xml \
+    bcmath
 
 # Set working directory
 WORKDIR /var/www/html
@@ -100,4 +101,5 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 EXPOSE 80
 
 # Start PHP-FPM in the background and Nginx in the foreground
-CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
+# CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "php artisan config:clear && php artisan route:clear && php artisan config:cache && php artisan route:cache && php-fpm -D && nginx -g 'daemon off;'"]
