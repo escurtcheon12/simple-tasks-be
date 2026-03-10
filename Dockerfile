@@ -87,4 +87,4 @@ RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 EXPOSE 80
 
 # Start PHP-FPM in background and Nginx in foreground (Runtime)
-CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "sed -i \"s/listen 80/listen ${PORT:-80}/g\" /etc/nginx/nginx.conf && php-fpm -D && nginx -g 'daemon off;'"]

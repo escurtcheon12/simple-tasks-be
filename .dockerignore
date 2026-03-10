@@ -1,0 +1,13 @@
+node_modules/
+vendor/
+.env
+.git/
+storage/logs/
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/testing/
+storage/framework/views/
+public/hot
+public/storage
+.phpunit.result.cache
+tests/
