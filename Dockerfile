@@ -1,3 +1,5 @@
+# Trigger new build to resolve deployment conflict
+
 # Use a PHP image with Composer for the build stage
 FROM php:8.2-fpm-alpine as builder
 
