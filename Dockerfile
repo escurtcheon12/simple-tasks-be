@@ -89,4 +89,8 @@ RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 EXPOSE 80
 
 # Start PHP-FPM in background and Nginx in foreground (Runtime)
-CMD ["sh", "-c", "sed -i \"s/listen 80/listen ${PORT:-80}/g\" /etc/nginx/nginx.conf && php-fpm -D && nginx -g 'daemon off;'"]
+# Copy entrypoint script
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["entrypoint.sh"]
